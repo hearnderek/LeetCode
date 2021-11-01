@@ -6,7 +6,6 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-    
         
         # All of the changes to return with no chance on elements needing changes
         if not board:
