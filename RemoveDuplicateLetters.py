@@ -6,9 +6,18 @@ class BestRemoval:
     c: str
     i: int
 
+def removeDuplicateAdjecentLetters(s: str) -> str:
+    sb = s[:1]
+    for i in range(1, len(s)):
+        if s[i] != sb[-1]:
+            sb += s[i]
+    return sb
+
 
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
+        """ Failed Greedy 3"""
+        s = removeDuplicateAdjecentLetters(s)
         
         cfs = dict()
         i = 0
@@ -21,14 +30,6 @@ class Solution:
         
         while any(x > 1 for x in cfs.values()):
             br = None
-
-            fc = None
-            for (i, c) in enumerate(s):
-                if cfs[c] == 1:
-                    continue
-                else:
-                    fc = c
-                    break
             for (i, c) in enumerate(s):
                 if cfs[c] == 1:
                     continue
@@ -41,19 +42,19 @@ class Solution:
         return s
 
     def new_removeDuplicateLetters(self, s: str) -> str:
+        """ Failed Greedy 2 """
+        s = removeDuplicateAdjecentLetters(s)
+        
         xs = set(s)
         for c in sorted(xs):
             rs = "".join(reversed(s))
             i = s.find(c)
             j = (rs.find(c) + 1) * -1
-            print(i, s[i], j, s[j])
             s1 = s[:i+1] + "".join([x for x in s[i+1:] if x != c])
             s2 = "".join([x for x in s[:j] if x != c]) + s[j:]
             s = min( 
                 s1,
                 s2)
-            print(s1)
-            print(s2)
             print(c, s)
 
         return s
@@ -63,13 +64,11 @@ class Solution:
 
     def old_removeDuplicateLetters(self, s: str) -> str:
         """
-        My initial solution was incorrect use to a misunderstanding of the problem.
-        We are not able to reorder the characters, we can only remove characters.
-        
-        O(n) time complexity
-        O(n) space complexity
+        Failed Greedy 1
         """
 
+        s = removeDuplicateAdjecentLetters(s)
+        
         sbx = ""
         sby = ""
         sbz = ""
@@ -101,13 +100,17 @@ class Solution:
 if __name__ == "__main__":
     xs = [
         "rusrbofeggbbkyuyjsrzornpdguwzizqszpbicdquakqws",
-        # "abacb",
-        # "bcabc",
-        # "cbacdcbc",
-        # "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzz",
-        # "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzaaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzz"
+        "abacb",
+        "bcabc",
+        "cbacdcbc",
+        "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzz",
+        "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzaaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzz"
         ]
     for x in xs:
         print(Solution().removeDuplicateLetters(x))
-
+        print(Solution().new_removeDuplicateLetters(x))
+        print(Solution().old_removeDuplicateLetters(x))
+    
+    
+    print(removeDuplicateAdjecentLetters("rusrbofeggbbkyuyjsrzornpdguwzizqszpbicdquakqws"))
     print("bfegkuyjorndiqszpcaw")
