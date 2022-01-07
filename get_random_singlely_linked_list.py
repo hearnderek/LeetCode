@@ -6,10 +6,15 @@ class ListNode:
         self.next = next
 
 class Solution:
-    def __int__(self, head):
-        self.head = head
-        self.center = head # todo walk list
-        self.len = -1 # todo walk list
+
+    def __init__(self, head):
+        self.xs = list()
+
+        p = head
+        while p:
+            self.xs.append(p.val)
+            p = p.next
+
 
     def getRandom(self) -> int:
         # Nieve solution Head Only:
@@ -31,4 +36,7 @@ class Solution:
         # Non-memory intensive solution: (similar to a clustered index)
         # Create a partition index list with a buffer
         # n(1) lookup with a worst case of O(buffer)
-        pass
+
+
+        # going with vacuum solution:
+        return random.choice(self.xs)
