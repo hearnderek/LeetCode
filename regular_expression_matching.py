@@ -6,8 +6,11 @@ class Solution:
         base = 0
         repeat = 1
         repeat_char = None
-        match = 2
-        match_char = None
+        simplematch = 2
+        simplematch_char = None
+
+        wildcard = 3
+        
 
         state = base
 
@@ -30,14 +33,16 @@ class Solution:
                     # todo: parse regex failure if this happens at index 0
                     # todo: parse regex failure if repeat_char char is also a *
                     repeat_char = regex[regex_p-1]
-                    continue
+                elif regex[regex_p] == ".":
+                    state = wildcard
                 else:
-                    match_char = regex[regex_p]
+                    state = simplematch
+                    simplematch_char = regex[regex_p]
 
-            elif state == match:    
+            elif state == simplematch:    
                 
                 # direct string comparison case
-                if match_char == input[input_p]:
+                if simplematch_char == input[input_p]:
                     regex_p += 1
                     input_p += 1
                     state == base
